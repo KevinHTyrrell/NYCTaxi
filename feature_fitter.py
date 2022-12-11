@@ -72,9 +72,10 @@ class FeatureFitter:
     def _get_euclidean_distance(self, df: pd.DataFrame, include_log: bool = False):
         dropoff_lat, dropoff_long, pickup_lat, pickup_long = self._get_coordinates(df)
         eu_distances = np.sqrt((dropoff_lat - pickup_lat) ** 2 + (dropoff_long - pickup_long) ** 2)
-        to_return = pd.DataFrame.from_dict({'eu_distance': eu_distances})
+        to_return_dict = {'eu_distance': eu_distances}
         if include_log:
-            to_return.update({'eu_dustance_log': np.log(eu_distances + 1)})
+            to_return_dict.update({'eu_dustance_log': np.log(eu_distances + 1)})
+        to_return = pd.DataFrame.from_dict(to_return_dict)
         return to_return
 
     def fit(self, df: pd.DataFrame):
