@@ -1,0 +1,33 @@
+outliers:
+  pickup_longitude:
+    tail_to_drop: 'both'
+    cutoff_quantile:
+      - 0.01
+      - 0.99
+  pickup_latitude:
+    tail_to_drop: 'both'
+    cutoff_quantile:
+      - 0.01
+      - 0.99
+  dropoff_longitude:
+    tail_to_drop: 'both'
+    cutoff_quantile:
+      - 0.01
+      - 0.99
+  dropoff_latitude:
+    tail_to_drop: 'both'
+    cutoff_quantile:
+      - 0.01
+      - 0.99
+  trip_duration:
+    tail_to_drop: 'upper'
+    cutoff_quantile:
+      - 0.01
+      - 0.99
+vals_to_scale:
+  - 'pickup_longitude'
+  - 'pickup_latitude'
+  - 'dropoff_longitude'
+  - 'dropoff_latitude'
+  - 'dist_longitude'
+  - 'dist_latitude'
