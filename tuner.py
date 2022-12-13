@@ -24,30 +24,6 @@ class Tuner:
         self._metric            = None
         self._direction         = None
 
-    def reset_study(self):
-        self._study = optuna.create_study()
-
-    def _process_param_grid(self, param_grid):
-        if isinstance(param_grid, dict):
-            return param_grid
-        return read_file(param_grid)
-
-    def set_metric(self, metric, direction):
-        self._metric = metric
-        self._direction = direction
-
-    def set_data(self,
-                 train_x,
-                 train_y,
-                 val_x,
-                 val_y):
-        self._data_dict = {
-            'train_x':  train_x,
-            'train_y':  train_y,
-            'val_x':    val_x,
-            'val_y':    val_y
-        }
-
     def _get_params(self, trial):
         suggest_dict = {
             'categorical':  trial.suggest_categorical,
@@ -88,6 +64,36 @@ class Tuner:
         # Evaluate predictions
         metric = self._metric(val_y, y_pred)
         return metric
+
+    def _process_param_grid(self, param_grid):
+        if isinstance(param_grid, dict):
+            return param_grid
+        return read_file(param_grid)
+
+    def get_estimator(self):
+        return self._estimator_fit
+
+    def get_study(self):
+        return self._study
+
+    def reset_study(self):
+        self._study = optuna.create_study()
+
+    def set_metric(self, metric, direction):
+        self._metric = metric
+        self._direction = direction
+
+    def set_data(self,
+                 train_x,
+                 train_y,
+                 val_x,
+                 val_y):
+        self._data_dict = {
+            'train_x': train_x,
+            'train_y': train_y,
+            'val_x': val_x,
+            'val_y': val_y
+        }
 
     def run_study(self, n_trials: int, refit: bool = True):
         self._study = optuna.create_study(direction=self._direction)
